@@ -1,0 +1,218 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-12">
+            <div class="text-center mb-5">
+                <h1 class="display-5 fw-bold mb-3">
+                    <i class="fas fa-tachometer-alt"></i> Admin Dashboard
+                </h1>
+                <p class="lead text-muted">Monitor system performance and analyze data</p>
+            </div>
+            
+            <!-- Statistics Cards -->
+            <div class="row g-4 mb-5">
+                <div class="col-md-3">
+                    <div class="card bg-primary text-white">
+                        <div class="card-body text-center">
+                            <i class="fas fa-file-alt fa-2x mb-3"></i>
+                            <h3 class="display-6">{{ total_posts }}</h3>
+                            <p class="mb-0">Total Posts</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card bg-danger text-white">
+                        <div class="card-body text-center">
+                            <i class="fas fa-exclamation-triangle fa-2x mb-3"></i>
+                            <h3 class="display-6">{{ fake_posts }}</h3>
+                            <p class="mb-0">Fake Posts</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card bg-success text-white">
+                        <div class="card-body text-center">
+                            <i class="fas fa-check-circle fa-2x mb-3"></i>
+                            <h3 class="display-6">{{ real_posts }}</h3>
+                            <p class="mb-0">Real Posts</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card bg-info text-white">
+                        <div class="card-body text-center">
+                            <i class="fas fa-chart-line fa-2x mb-3"></i>
+                            <h3 class="display-6">{{ "%.1f"|format(metrics.accuracy * 100) if metrics else 0 }}%</h3>
+                            <p class="mb-0">Accuracy</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Charts Row -->
+            <div class="row g-4 mb-5">
+                <div class="col-md-6">
+                    <div class="card shadow">
+                        <div class="card-header bg-warning text-dark">
+                            <h5 class="mb-0">
+                                <i class="fas fa-chart-pie"></i> Post Distribution
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="postDistributionChart" width="400" height="300"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card shadow">
+                        <div class="card-header bg-info text-white">
+                            <h5 class="mb-0">
+                                <i class="fas fa-chart-bar"></i> Daily Activity
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="dailyActivityChart" width="400" height="300"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Model Performance -->
+            {% if metrics %}
+            <div class="card shadow mb-5">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0">
+                        <i class="fas fa-brain"></i> Model Performance Metrics
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3 text-center">
+                            <h4 class="text-primary">{{ "%.2f"|format(metrics.accuracy) }}</h4>
+                            <p class="text-muted">Accuracy</p>
+                        </div>
+                        <div class="col-md-3 text-center">
+                            <h4 class="text-success">{{ "%.2f"|format(metrics.precision) }}</h4>
+                            <p class="text-muted">Precision</p>
+                        </div>
+                        <div class="col-md-3 text-center">
+                            <h4 class="text-warning">{{ "%.2f"|format(metrics.recall) }}</h4>
+                            <p class="text-muted">Recall</p>
+                        </div>
+                        <div class="col-md-3 text-center">
+                            <h4 class="text-info">{{ "%.2f"|format(metrics.f1_score) }}</h4>
+                            <p class="text-muted">F1 Score</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            
+            <!-- Recent Posts -->
+            <div class="card shadow">
+                <div class="card-header bg-dark text-white">
+                    <h5 class="mb-0">
+                        <i class="fas fa-history"></i> Recent Posts
+                    </h5>
+                </div>
+                <div class="card-body">
+                    {% if recent_posts %}
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Time</th>
+                                    <th>Text Preview</th>
+                                    <th>Prediction</th>
+                                    <th>Confidence</th>
+                                    <th>Feedback</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for post in recent_posts %}
+                                <tr>
+                                    <td>{{ post.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+                                    <td>{{ post.text[:50] }}...</td>
+                                    <td>
+                                        <span class="badge bg-{% if post.prediction == 'fake' %}danger{% else %}success{% endif %}">
+                                            {{ post.prediction.title() }}
+                                        </span>
+                                    </td>
+                                    <td>{{ "%.1f"|format(post.confidence * 100) }}%</td>
+                                    <td>
+                                        {% if post.user_feedback %}
+                                            <span class="badge bg-{% if post.user_feedback == 'correct' %}success{% else %}danger{% endif %}">
+                                                {{ post.user_feedback.title() }}
+                                            </span>
+                                        {% else %}
+                                            <span class="text-muted">No feedback</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% else %}
+                    <p class="text-muted text-center">No posts analyzed yet.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Post Distribution Chart
+const ctx1 = document.getElementById('postDistributionChart').getContext('2d');
+new Chart(ctx1, {
+    type: 'doughnut',
+    data: {
+        labels: ['Fake Posts', 'Real Posts'],
+        datasets: [{
+            data: [{{ fake_posts }}, {{ real_posts }}],
+            backgroundColor: ['#dc3545', '#28a745'],
+            borderWidth: 2,
+            borderColor: '#fff'
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                position: 'bottom'
+            }
+        }
+    }
+});
+
+// Daily Activity Chart (sample data)
+const ctx2 = document.getElementById('dailyActivityChart').getContext('2d');
+new Chart(ctx2, {
+    type: 'line',
+    data: {
+        labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+        datasets: [{
+            label: 'Posts Analyzed',
+            data: [12, 19, 8, 15, 22, 18, 25],
+            borderColor: '#007bff',
+            backgroundColor: 'rgba(0, 123, 255, 0.1)',
+            tension: 0.4
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});
+</script>
+{% endblock %}
+

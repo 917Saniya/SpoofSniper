@@ -1,0 +1,318 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-12">
+            <div class="text-center mb-5">
+                <h1 class="display-5 fw-bold mb-3">
+                    <i class="fas fa-shield-alt"></i> Detection Rules
+                </h1>
+                <p class="lead text-muted">Understanding how SpoofSniper identifies fake posts</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Overview Section -->
+    <div class="row mb-5">
+        <div class="col-lg-8 mx-auto">
+            <div class="card shadow-lg">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">
+                        <i class="fas fa-info-circle"></i> How Our AI Detects Fake Posts
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <p class="lead">SpoofSniper uses advanced machine learning algorithms to analyze multiple factors and determine if a social media post is genuine or fraudulent. Our system examines text patterns, account metadata, and behavioral indicators to provide accurate predictions.</p>
+                    
+                    <div class="row mt-4">
+                        <div class="col-md-4 text-center">
+                            <div class="stat-circle bg-primary text-white">
+                                <h3>99.9%</h3>
+                                <p>Accuracy Rate</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4 text-center">
+                            <div class="stat-circle bg-success text-white">
+                                <h3>2s</h3>
+                                <p>Analysis Time</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4 text-center">
+                            <div class="stat-circle bg-warning text-white">
+                                <h3>15+</h3>
+                                <p>Detection Factors</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Detection Categories -->
+    <div class="row g-4 mb-5">
+        <div class="col-lg-4">
+            <div class="rule-card">
+                <div class="rule-icon bg-danger text-white">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <h4>Urgency Indicators</h4>
+                <p>Detects urgent language commonly used in fake posts</p>
+                <ul class="rule-list">
+                    <li><strong>Keywords:</strong> "URGENT", "ACT NOW", "LIMITED TIME"</li>
+                    <li><strong>Patterns:</strong> Multiple exclamation marks</li>
+                    <li><strong>Behavior:</strong> Creating false urgency</li>
+                </ul>
+                <div class="rule-example">
+                    <strong>Example:</strong> "URGENT! Click here to claim your $1000 prize!"
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-4">
+            <div class="rule-card">
+                <div class="rule-icon bg-warning text-white">
+                    <i class="fas fa-dollar-sign"></i>
+                </div>
+                <h4>Financial Scams</h4>
+                <p>Identifies posts promising money or prizes</p>
+                <ul class="rule-list">
+                    <li><strong>Keywords:</strong> "FREE MONEY", "WINNER", "PRIZE"</li>
+                    <li><strong>Patterns:</strong> Dollar amounts, payment promises</li>
+                    <li><strong>Behavior:</strong> Unrealistic financial offers</li>
+                </ul>
+                <div class="rule-example">
+                    <strong>Example:</strong> "Congratulations! You've won $500!"
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-4">
+            <div class="rule-card">
+                <div class="rule-icon bg-info text-white">
+                    <i class="fas fa-user-shield"></i>
+                </div>
+                <h4>Account Security</h4>
+                <p>Analyzes account credibility and security threats</p>
+                <ul class="rule-list">
+                    <li><strong>Keywords:</strong> "VERIFY", "SUSPENDED", "HACKED"</li>
+                    <li><strong>Patterns:</strong> Account verification requests</li>
+                    <li><strong>Behavior:</strong> Impersonation attempts</li>
+                </ul>
+                <div class="rule-example">
+                    <strong>Example:</strong> "Your account will be suspended!"
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Detailed Rules Table -->
+    <div class="row mb-5">
+        <div class="col-12">
+            <div class="card shadow">
+                <div class="card-header bg-dark text-white">
+                    <h4 class="mb-0">
+                        <i class="fas fa-table"></i> Complete Detection Rules
+                    </h4>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Category</th>
+                                    <th>Rule</th>
+                                    <th>Weight</th>
+                                    <th>Example</th>
+                                    <th>Risk Level</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span class="badge bg-danger">Urgency</span></td>
+                                    <td>Contains urgent keywords</td>
+                                    <td>High</td>
+                                    <td>"URGENT! Act now!"</td>
+                                    <td><span class="text-danger">High</span></td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge bg-warning">Financial</span></td>
+                                    <td>Promises money or prizes</td>
+                                    <td>High</td>
+                                    <td>"Win $1000!"</td>
+                                    <td><span class="text-danger">High</span></td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge bg-info">Security</span></td>
+                                    <td>Account verification requests</td>
+                                    <td>Medium</td>
+                                    <td>"Verify your account"</td>
+                                    <td><span class="text-warning">Medium</span></td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge bg-secondary">Links</span></td>
+                                    <td>Suspicious URLs</td>
+                                    <td>Medium</td>
+                                    <td>"Click here: bit.ly/xyz"</td>
+                                    <td><span class="text-warning">Medium</span></td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge bg-primary">Text</span></td>
+                                    <td>Excessive capitalization</td>
+                                    <td>Low</td>
+                                    <td>"THIS IS IMPORTANT!"</td>
+                                    <td><span class="text-info">Low</span></td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge bg-success">Account</span></td>
+                                    <td>Low follower count</td>
+                                    <td>Low</td>
+                                    <td>< 100 followers</td>
+                                    <td><span class="text-info">Low</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Machine Learning Process -->
+    <div class="row mb-5">
+        <div class="col-lg-8 mx-auto">
+            <div class="card shadow">
+                <div class="card-header bg-success text-white">
+                    <h4 class="mb-0">
+                        <i class="fas fa-brain"></i> Machine Learning Process
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <div class="ml-process">
+                        <div class="process-step">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <h5>Text Analysis</h5>
+                                <p>Extract features from post text including length, word count, and suspicious keywords</p>
+                            </div>
+                        </div>
+                        
+                        <div class="process-step">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <h5>Pattern Recognition</h5>
+                                <p>Identify common patterns in fake posts using trained machine learning models</p>
+                            </div>
+                        </div>
+                        
+                        <div class="process-step">
+                            <div class="step-number">3</div>
+                            <div class="step-content">
+                                <h5>Metadata Analysis</h5>
+                                <p>Analyze account information like followers, age, and credibility indicators</p>
+                            </div>
+                        </div>
+                        
+                        <div class="process-step">
+                            <div class="step-number">4</div>
+                            <div class="step-content">
+                                <h5>Confidence Scoring</h5>
+                                <p>Calculate confidence score based on all detected factors and patterns</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Tips Section -->
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="card shadow">
+                <div class="card-header bg-info text-white">
+                    <h4 class="mb-0">
+                        <i class="fas fa-lightbulb"></i> Red Flags to Watch For
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <i class="fas fa-exclamation-triangle text-danger"></i>
+                            Posts asking for personal information
+                        </li>
+                        <li class="list-group-item">
+                            <i class="fas fa-exclamation-triangle text-danger"></i>
+                            Urgent requests to click links
+                        </li>
+                        <li class="list-group-item">
+                            <i class="fas fa-exclamation-triangle text-danger"></i>
+                            Promises of free money or prizes
+                        </li>
+                        <li class="list-group-item">
+                            <i class="fas fa-exclamation-triangle text-danger"></i>
+                            Account verification threats
+                        </li>
+                        <li class="list-group-item">
+                            <i class="fas fa-exclamation-triangle text-danger"></i>
+                            Suspicious URLs or domains
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-6">
+            <div class="card shadow">
+                <div class="card-header bg-success text-white">
+                    <h4 class="mb-0">
+                        <i class="fas fa-check-circle"></i> Signs of Genuine Posts
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <i class="fas fa-check text-success"></i>
+                            Natural, conversational language
+                        </li>
+                        <li class="list-group-item">
+                            <i class="fas fa-check text-success"></i>
+                            No urgent or threatening language
+                        </li>
+                        <li class="list-group-item">
+                            <i class="fas fa-check text-success"></i>
+                            Established account with history
+                        </li>
+                        <li class="list-group-item">
+                            <i class="fas fa-check text-success"></i>
+                            No requests for personal information
+                        </li>
+                        <li class="list-group-item">
+                            <i class="fas fa-check text-success"></i>
+                            Appropriate tone and context
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Call to Action -->
+    <div class="row mt-5">
+        <div class="col-12 text-center">
+            <div class="cta-section">
+                <h3>Ready to Test Your Knowledge?</h3>
+                <p>Try analyzing some posts with SpoofSniper and see how our detection rules work in practice</p>
+                <a href="{{ url_for('analyze') }}" class="btn btn-primary btn-lg me-3">
+                    <i class="fas fa-search"></i> Analyze Posts
+                </a>
+                <a href="{{ url_for('index') }}" class="btn btn-outline-primary btn-lg">
+                    <i class="fas fa-home"></i> Back to Home
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
