@@ -1,0 +1,113 @@
+/* ===== BASE TEXT COLOR ===== */
+body{color:#000}
+/* ===== CORE GRADIENTS & BACKGROUNDS ===== */
+.gradient-nav{background:#006D77}
+.gradient-hero{background:radial-gradient(1000px 400px at 0% 0%,#EDF6F9 0,#cfecee 45%,#bfe4e7 100%)}
+.lower-surface{background:linear-gradient(180deg,#1b1f3b,#0b1026)}
+.glass-card{background:rgba(255,255,255,0.1);backdrop-filter:blur(6px);border-radius:12px;color:#000}
+
+/* ===== ENHANCED CARD STYLES ===== */
+.feature-card{background:#fff;border-radius:16px;border:1px solid #eee;transition:all .3s cubic-bezier(0.4, 0, 0.2, 1);box-shadow:0 2px 8px rgba(0,0,0,0.04)}
+.feature-card:hover{transform:translateY(-8px) scale(1.02);box-shadow:0 20px 40px rgba(0,0,0,0.12);border-color:#0d6efd}
+
+.rule-card{background:#fff;border:1px solid #eee;border-radius:16px;padding:24px;transition:all .3s cubic-bezier(0.4, 0, 0.2, 1);position:relative;overflow:hidden}
+.rule-card:hover{transform:translateY(-8px) scale(1.01);box-shadow:0 24px 48px rgba(0,0,0,0.15)}
+.rule-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#0d6efd,#6f42c1,#dc3545);opacity:0;transition:opacity .3s ease}
+.rule-card:hover::before{opacity:1}
+
+.rule-icon{font-size:32px;margin-bottom:12px;transition:transform .3s ease}
+.rule-card:hover .rule-icon{transform:scale(1.1) rotate(5deg)}
+
+/* ===== ANALYSIS PAGE SPECIFIC STYLES ===== */
+.analysis-container{background:#EDF6F9;min-height:100vh}
+
+.analysis-card{background:#fff;border-radius:20px;border:1px solid #cfecee;box-shadow:0 8px 32px rgba(0,0,0,0.08);transition:all .3s cubic-bezier(0.4, 0, 0.2, 1);position:relative;overflow:hidden;color:#000}
+.analysis-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#006D77,#20c997,#073B4C);opacity:0.9}
+
+.form-control{border-radius:12px;border:2px solid #e9ecef;transition:all .3s ease;padding:12px 16px;font-size:15px}
+.form-control:focus{border-color:#006D77;box-shadow:0 0 0 0.2rem rgba(0,109,119,0.15);transform:translateY(-1px)}
+
+.form-label{font-weight:600;color:#495057;margin-bottom:8px;font-size:14px;text-transform:uppercase;letter-spacing:0.5px}
+
+/* ===== ENHANCED RESULT DISPLAY ===== */
+.result-box{min-height:120px;border:2px dashed #bfe4e7;border-radius:16px;padding:24px;background:linear-gradient(135deg,#ffffff,#f2fbfc);transition:all .3s ease;position:relative;overflow:hidden;color:#000}
+.result-box::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(45deg,transparent 30%,rgba(13,110,253,0.05) 50%,transparent 70%);opacity:0;transition:opacity .3s ease}
+.result-box.loading{border-color:#0d6efd;background:linear-gradient(135deg,#e3f2fd,#f3e5f5)}
+.result-box.loading::before{opacity:1;animation:shimmer 2s infinite}
+
+.result-success{border-color:#20c997;background:linear-gradient(135deg,#d8fff5,#b8f2e6)}
+.result-danger{border-color:#ff6b6b;background:linear-gradient(135deg,#ffe3e3,#ffd6d6)}
+
+/* ===== LOADING ANIMATIONS ===== */
+@keyframes shimmer{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.5}}
+@keyframes bounce{0%,20%,53%,80%,100%{transform:translate3d(0,0,0)}40%,43%{transform:translate3d(0,-8px,0)}70%{transform:translate3d(0,-4px,0)}90%{transform:translate3d(0,-2px,0)}}
+@keyframes fadeInUp{from{opacity:0;transform:translate3d(0,30px,0)}to{opacity:1;transform:translate3d(0,0,0)}}
+@keyframes slideInRight{from{opacity:0;transform:translate3d(30px,0,0)}to{opacity:1;transform:translate3d(0,0,0)}}
+
+.loading-spinner{display:inline-block;width:20px;height:20px;border:3px solid #f3f3f3;border-top:3px solid #0d6efd;border-radius:50%;animation:spin 1s linear infinite}
+@keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+
+/* ===== ENHANCED BUTTONS ===== */
+.btn{transition:all .3s cubic-bezier(0.4, 0, 0.2, 1);border-radius:12px;padding:12px 24px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;position:relative;overflow:hidden}
+.btn::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.2),transparent);transition:left .5s ease}
+.btn:hover::before{left:100%}
+.btn:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(0,0,0,0.15)}
+
+.btn-primary{background:linear-gradient(135deg,#006D77,#073B4C);border:none;color:#fff}
+.btn-primary:hover{background:linear-gradient(135deg,#055e66,#062d3a);color:#fff}
+
+.btn-success{background:linear-gradient(135deg,#28a745,#20c997);border:none;color:#fff}
+.btn-danger{background:linear-gradient(135deg,#dc3545,#e83e8c);border:none;color:#fff}
+
+/* ===== PROGRESS INDICATORS ===== */
+.progress-container{background:#f8f9fa;border-radius:12px;padding:20px;margin:20px 0}
+.progress-bar{height:8px;border-radius:4px;background:linear-gradient(90deg,#0d6efd,#6f42c1);transition:width .6s ease;position:relative;overflow:hidden}
+.progress-bar::after{content:'';position:absolute;top:0;left:0;bottom:0;width:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.3),transparent);animation:shimmer 2s infinite}
+
+/* ===== RISK INDICATORS ===== */
+.risk-indicator{display:inline-flex;align-items:center;gap:8px;padding:8px 16px;border-radius:20px;font-weight:600;font-size:14px;color:#000;background:#e6f7f8;border:1px solid #bfe4e7}
+.risk-low{background:#e6fff8;color:#000;border-color:#b8f2e6}
+.risk-medium{background:#fff4e6;color:#000;border-color:#ffe0b2}
+.risk-high{background:#ffe6e6;color:#000;border-color:#ffcccc}
+
+/* ===== EXPLANATION CARDS ===== */
+.explanation-card{background:#fff;border-radius:12px;padding:16px;margin:8px 0;border-left:4px solid #006D77;box-shadow:0 2px 8px rgba(0,0,0,0.05);transition:all .3s ease;color:#000}
+.explanation-card:hover{transform:translateX(4px);box-shadow:0 4px 16px rgba(0,0,0,0.1)}
+.explanation-card.warning{border-left-color:#ffc107}
+.explanation-card.danger{border-left-color:#dc3545}
+
+/* ===== REVEAL ANIMATIONS ===== */
+.reveal{opacity:0;transform:translateY(30px);transition:all .8s cubic-bezier(0.4, 0, 0.2, 1)}
+.reveal.show{opacity:1;transform:translateY(0)}
+.reveal.delay-1{transition-delay:0.1s}
+.reveal.delay-2{transition-delay:0.2s}
+.reveal.delay-3{transition-delay:0.3s}
+
+/* ===== CARD TITLES WITH ENHANCED ACCENTS ===== */
+.card-title{position:relative;padding-bottom:12px;font-weight:700;color:#073B4C}
+.card-title::after{content:"";position:absolute;left:0;bottom:0;width:60px;height:4px;background:linear-gradient(90deg,#006D77,#073B4C,#20c997);border-radius:2px;animation:slideInRight .6s ease}
+
+/* ===== RESPONSIVE ENHANCEMENTS ===== */
+@media (max-width: 768px){
+  .analysis-card{border-radius:16px;margin:10px}
+  .form-control{padding:10px 14px;font-size:14px}
+  .btn{padding:10px 20px;font-size:14px}
+  .result-box{padding:16px;min-height:100px}
+}
+
+@media (max-width: 576px){
+  .form-label{font-size:12px}
+  .card-title{font-size:18px}
+  .analysis-card{padding:16px}
+  .btn{width:100%;margin-bottom:10px}
+}
+
+/* ===== DARK MODE SUPPORT ===== */
+@media (prefers-color-scheme: dark){
+  .analysis-container{background:linear-gradient(135deg,#0b1c20 0%,#0e2227 100%)}
+  .analysis-card{background:#11272d;color:#e6f2f3}
+  .form-control{background:#16343b;border-color:#1f4b53;color:#e6f2f3}
+  .form-control:focus{border-color:#006D77;background:#16343b}
+  .result-box{background:linear-gradient(135deg,#16343b,#11272d);border-color:#1f4b53}
+}

@@ -1,0 +1,335 @@
+{% extends 'base.html' %}
+{% block content %}
+
+{% raw %}
+<!-- ✅ Header Text Color -->
+<style>
+.gradient-text {
+  /* Force solid black text instead of gradient */
+  color: #000;
+  -webkit-text-fill-color: #000;
+  background: none;
+  background-clip: initial;
+  -webkit-background-clip: initial;
+  display: inline-block;
+}
+</style>
+{% endraw %}
+
+<div class="analysis-container">
+  <div class="container py-5">
+    <!-- Header Section -->
+    <div class="text-center mb-5 reveal">
+      <h1 class="display-4 fw-bold mb-3 gradient-text">
+        <i class="fa-solid fa-shield-halved me-3"></i>Account Analysis
+      </h1>
+      <p class="lead text-muted">
+        Enter post text and account details. SpoofSniper will analyze using AI models and provide detailed risk assessment.
+      </p>
+    </div>
+
+    <div class="row g-4">
+      <!-- Input Section -->
+      <div class="col-lg-6 reveal delay-1">
+        <div class="analysis-card">
+          <div class="card-body p-4">
+            <h5 class="card-title">
+              <i class="fa-solid fa-keyboard me-2"></i>Input Details
+            </h5>
+            <form id="analysisForm">
+              <div class="mb-4">
+                <label class="form-label">
+                  <i class="fa-solid fa-file-text me-2"></i>Post Text
+                </label>
+                <textarea
+                  class="form-control"
+                  id="textInput"
+                  rows="6"
+                  placeholder="Paste the post or announcement you want to analyze..."
+                  required
+                ></textarea>
+                <div class="form-text">
+                  Enter the text content to analyze for suspicious patterns
+                </div>
+              </div>
+
+              <div class="row g-3 mb-4">
+                <div class="col-md-6">
+                  <label class="form-label">
+                    <i class="fa-solid fa-user me-2"></i>Username
+                  </label>
+                  <input class="form-control" id="usernameInput" placeholder="@username" />
+                  <div class="form-text">Account username (optional)</div>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">
+                    <i class="fa-solid fa-users me-2"></i>Followers
+                  </label>
+                  <input
+                    class="form-control"
+                    id="followersInput"
+                    type="number"
+                    min="0"
+                    placeholder="1000"
+                  />
+                  <div class="form-text">Follower count (optional)</div>
+                </div>
+              </div>
+
+              <div class="d-grid">
+                <button class="btn btn-primary btn-lg" id="analyzeBtn" type="submit">
+                  <i class="fa-solid fa-bullseye me-2"></i>
+                  <span class="btn-text">Analyze Post</span>
+                  <span class="loading-spinner d-none spinner-border spinner-border-sm ms-2"></span>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- Explainable Insights -->
+        <div class="analysis-card mt-4 reveal delay-2">
+          <div class="card-body p-4">
+            <h5 class="card-title">
+              <i class="fa-solid fa-lightbulb me-2"></i>Analysis Insights
+            </h5>
+            <div id="explainBox" class="text-muted">
+              <div class="text-center py-3">
+                <i class="fa-solid fa-info-circle fa-2x text-muted mb-2"></i>
+                <p class="mb-1">Detailed explanations will appear here.</p>
+                <p class="small mb-0">We highlight urgency, money-related cues, action prompts, and account red flags to justify each decision.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Results Section -->
+      <div class="col-lg-6 reveal delay-3">
+        <div class="analysis-card">
+          <div class="card-body p-4">
+            <h5 class="card-title">
+              <i class="fa-solid fa-chart-line me-2"></i>Analysis Results
+            </h5>
+            <div id="resultBox" class="result-box text-center">
+              <div class="py-4">
+                <i class="fa-solid fa-search fa-3x text-muted mb-3"></i>
+                <h6 class="text-muted">Ready to Analyze</h6>
+                <p class="small text-muted mb-0">
+                  Submit your input to see detailed risk assessment and classification results.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Risk Breakdown -->
+        <div class="analysis-card mt-4 reveal delay-3">
+          <div class="card-body p-4">
+            <h5 class="card-title">
+              <i class="fa-solid fa-chart-pie me-2"></i>Risk Breakdown
+            </h5>
+            <div id="riskBreakdown" class="d-none">
+              <div class="row g-3">
+                <div class="col-4 text-center">
+                  <div class="risk-indicator" id="textRisk"><i class="fa-solid fa-file-text"></i><span>Text: 0%</span></div>
+                </div>
+                <div class="col-4 text-center">
+                  <div class="risk-indicator" id="accountRisk"><i class="fa-solid fa-user"></i><span>Account: 0%</span></div>
+                </div>
+                <div class="col-4 text-center">
+                  <div class="risk-indicator" id="overallRisk"><i class="fa-solid fa-shield-halved"></i><span>Overall: 0%</span></div>
+                </div>
+              </div>
+              <div class="mt-4">
+                <canvas id="riskChart" height="140"></canvas>
+              </div>
+            </div>
+            <div id="riskBreakdownPlaceholder" class="text-center py-3">
+              <i class="fa-solid fa-chart-pie fa-2x text-muted mb-2"></i>
+              <p class="text-muted mb-0">Risk breakdown will appear after analysis</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% raw %}
+<!-- =============================== -->
+<!-- 🧠 Enhanced Analysis Script -->
+<!-- =============================== -->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.querySelector("#analysisForm");
+  const textInput = document.querySelector("#textInput");
+  const usernameInput = document.querySelector("#usernameInput");
+  const followersInput = document.querySelector("#followersInput");
+  const resultBox = document.querySelector("#resultBox");
+  const explainBox = document.querySelector("#explainBox");
+  const analyzeBtn = document.querySelector("#analyzeBtn");
+  const btnText = document.querySelector(".btn-text");
+  const loadingSpinner = document.querySelector(".loading-spinner");
+  const riskBreakdown = document.querySelector("#riskBreakdown");
+  const riskBreakdownPlaceholder = document.querySelector("#riskBreakdownPlaceholder");
+  let riskChart;
+
+  function animateValue(el, start, end, duration = 700) {
+    const startTs = performance.now();
+    function frame(now) {
+      const p = Math.min(1, (now - startTs) / duration);
+      const val = Math.round(start + (end - start) * p);
+      el.textContent = `${val}%`;
+      if (p < 1) requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  }
+
+  function showLoading() {
+    analyzeBtn.disabled = true;
+    btnText.classList.add("d-none");
+    loadingSpinner.classList.remove("d-none");
+    resultBox.innerHTML = `<div class='py-4'>
+      <div class='spinner-border text-primary mb-3'></div>
+      <h6>Analyzing...</h6></div>`;
+  }
+
+  function hideLoading() {
+    analyzeBtn.disabled = false;
+    btnText.classList.remove("d-none");
+    loadingSpinner.classList.add("d-none");
+  }
+
+  async function runAnalysis(text, username, followers) {
+    const body = JSON.stringify({
+      text,
+      username,
+      followers: followers ? parseInt(followers) : 0
+    });
+
+    async function tryFetchJson(url) {
+      const res = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body
+      });
+      if (!res.ok || res.status === 204) {
+        throw new Error(`HTTP ${res.status}`);
+      }
+      const txt = await res.text();
+      if (!txt || !txt.trim()) {
+        throw new Error("empty body");
+      }
+      try {
+        return JSON.parse(txt);
+      } catch (e) {
+        throw new Error("invalid json");
+      }
+    }
+
+    // 1) Try webhook on same host; 2) Fallback to API predict
+    const webhookUrl = `${window.location.origin}/webhook/spoof-analysis`;
+    try {
+      return await tryFetchJson(webhookUrl);
+    } catch (_) {
+      try {
+        return await tryFetchJson("/api/predict");
+      } catch (err) {
+        throw new Error("Connection failed: " + err.message);
+      }
+    }
+  }
+
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const text = textInput.value.trim();
+    const username = usernameInput.value.trim();
+    const followers = followersInput.value;
+
+    if (!text) return alert("Please enter text to analyze.");
+
+    showLoading();
+
+    try {
+      const data = await runAnalysis(text, username, followers);
+      const label = data.label || "Unknown";
+      const confidence = data.confidence ? (data.confidence * 100).toFixed(2) : "N/A";
+      const isFake = label.toLowerCase().includes("fake");
+
+      resultBox.innerHTML = `
+        <h3 class="${isFake ? 'text-danger' : 'text-success'} fw-bold">
+          ${isFake ? '🚫 FAKE' : '✅ REAL'}
+        </h3>
+        <p>Confidence: ${confidence}%</p>
+      `;
+
+      // Update insights list
+      const insights = Array.isArray(data.explanations) && data.explanations.length
+        ? data.explanations
+        : [
+            'No obvious red flags detected',
+            'Language tone, money prompts, and action verbs are monitored',
+            'Account heuristics consider follower count and username patterns'
+          ];
+      explainBox.innerHTML = insights
+        .map((t)=>`<div class="explanation-card">${t}</div>`)
+        .join('');
+
+      // Risk breakdown numbers
+      const textPct = Number(data.textRiskPct || 0);
+      const accPct = Number(data.accountRiskPct || 0);
+      const overallPct = Number(data.overallRiskPct || 0);
+      const textSpan = document.querySelector('#textRisk span');
+      const accSpan = document.querySelector('#accountRisk span');
+      const overallSpan = document.querySelector('#overallRisk span');
+
+      // Extract current numeric parts if present
+      const currentText = parseInt((textSpan.textContent.match(/(\d+)/)||[0,0])[1], 10) || 0;
+      const currentAcc = parseInt((accSpan.textContent.match(/(\d+)/)||[0,0])[1], 10) || 0;
+      const currentOverall = parseInt((overallSpan.textContent.match(/(\d+)/)||[0,0])[1], 10) || 0;
+
+      textSpan.textContent = 'Text: 0%';
+      accSpan.textContent = 'Account: 0%';
+      overallSpan.textContent = 'Overall: 0%';
+
+      // Animate values
+      animateValue(textSpan, currentText, textPct);
+      animateValue(accSpan, currentAcc, accPct);
+      animateValue(overallSpan, currentOverall, overallPct);
+      riskBreakdown.classList.remove('d-none');
+      riskBreakdownPlaceholder.classList.add('d-none');
+
+      // Doughnut chart
+      const ctx = document.getElementById('riskChart');
+      if (ctx) {
+        if (riskChart) riskChart.destroy();
+        riskChart = new Chart(ctx, {
+          type: 'doughnut',
+          data: {
+            labels: ['Text', 'Account', 'Overall'],
+            datasets: [{
+              data: [textPct, accPct, overallPct],
+              backgroundColor: ['#ff6b6b', '#20c997', '#006D77'],
+              hoverBackgroundColor: ['#ff8585', '#38d9a9', '#078592'],
+              borderWidth: 0
+            }]
+          },
+          options: {
+            plugins: { legend: { position: 'bottom', labels: { color: '#000' } } },
+            cutout: '65%'
+          }
+        });
+      }
+    } catch (err) {
+      resultBox.innerHTML = `<span class='text-danger'>${err.message}</span>`;
+    } finally {
+      hideLoading();
+    }
+  });
+});
+</script>
+{% endraw %}
+
+{% endblock %}

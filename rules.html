@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container py-4">
+  <h2 class="mb-3">Detection Rules</h2>
+  <p class="text-muted">These illustrative rules complement the ML model to enhance explainability.</p>
+  <div class="row g-4 reveal">
+    <div class="col-md-4">
+      <div class="rule-card h-100">
+        <div class="rule-icon text-primary"><i class="fa-solid fa-bell-exclamation"></i></div>
+        <h5>Urgency Terms</h5>
+        <p>Flags posts with words like "urgent", "now", "limited time" amplified by exclamation usage.</p>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="rule-card h-100">
+        <div class="rule-icon text-success"><i class="fa-solid fa-gift"></i></div>
+        <h5>Prize & Giveaways</h5>
+        <p>Detects common giveaway patterns and suspicious shortened links.</p>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="rule-card h-100">
+        <div class="rule-icon text-warning"><i class="fa-solid fa-key"></i></div>
+        <h5>Credential Requests</h5>
+        <p>Highlights prompts to "verify account" or request sensitive info via DMs.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-4 mt-1 reveal">
+    <div class="col-md-4">
+      <div class="rule-card h-100">
+        <div class="rule-icon text-danger"><i class="fa-solid fa-triangle-exclamation"></i></div>
+        <h5>Impersonation</h5>
+        <p>Username patterns and avatars mimicking verified brands or officials.</p>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="rule-card h-100">
+        <div class="rule-icon text-info"><i class="fa-solid fa-link"></i></div>
+        <h5>Suspicious Links</h5>
+        <p>New domains, misspellings, and non-HTTPS links are weighted higher.</p>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="rule-card h-100">
+        <div class="rule-icon text-secondary"><i class="fa-solid fa-robot"></i></div>
+        <h5>Automation Signal</h5>
+        <p>Repetitive posting cadence and templated content indicate bot-like behavior.</p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

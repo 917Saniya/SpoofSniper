@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="gradient-hero py-5 reveal">
+  <div class="container py-5">
+    <div class="row align-items-center">
+      <div class="col-lg-7">
+        <h1 class="display-5 fw-bold mb-3 text-dark">Spot fake posts before they spread.</h1>
+        <p class="lead mb-4 text-dark">SpoofSniper uses machine learning to detect misinformation and scams in social media posts. Get clear classifications, confidence scores, and explainable highlights.</p>
+        <div class="d-flex gap-3">
+          <a href="{{ url_for('account_analysis') }}" class="btn btn-light btn-lg px-4 fw-semibold"><i class="fa-solid fa-bullseye me-2"></i>Go to Account Analysis</a>
+        </div>
+      </div>
+      <div class="col-lg-5 mt-4 mt-lg-0">
+        <div class="glass-card p-4">
+          <h5 class="mb-3">How it works</h5>
+          <ul class="mb-0">
+            <li>Analyze text and account metadata</li>
+            <li>Get Fake/Real with confidence</li>
+            <li>See highlighted risky keywords</li>
+            <li>Automate workflows via N8N</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="py-5 bg-light reveal">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="feature-card p-4 h-100">
+          <i class="fa-solid fa-magnifying-glass-chart fa-2x mb-3 text-primary"></i>
+          <h5>Account Analysis</h5>
+          <p class="mb-0">Assess profiles using followers, username signals, and content risk.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="feature-card p-4 h-100">
+          <i class="fa-solid fa-scale-balanced fa-2x mb-3 text-success"></i>
+          <h5>Detection Rules</h5>
+          <p class="mb-0">Understand the heuristics and ML indicators driving decisions.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="feature-card p-4 h-100">
+          <i class="fa-solid fa-user-shield fa-2x mb-3 text-warning"></i>
+          <h5>Profile</h5>
+          <p class="mb-0">Login or create an account to personalize your experience.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container py-4">
+  <h2 class="mb-3">Risk Assessment</h2>
+  <div class="row g-4">
+    <div class="col-lg-5">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">Sample Input</h5>
+          <div class="mb-3">
+            <label class="form-label">Text</label>
+            <textarea id="textInputSettings" class="form-control" rows="4" placeholder="e.g., Congratulations! You won a prize. Click to verify now."></textarea>
+          </div>
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label">Username</label>
+              <input id="usernameSettings" class="form-control" placeholder="@user123">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Followers</label>
+              <input id="followersSettings" type="number" min="0" class="form-control" placeholder="250">
+            </div>
+          </div>
+          <div class="d-grid mt-3">
+            <button id="generateReport" class="btn btn-success"><i class="fa-solid fa-chart-column me-2"></i>Assess Risk</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-7">
+      <div class="card shadow-sm mb-4">
+        <div class="card-body">
+          <h5 class="card-title">Risk Breakdown</h5>
+          <canvas id="metricsBar"></canvas>
+        </div>
+      </div>
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">Result</h5>
+          <pre id="reportResult" class="small mb-0">No assessment yet.</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
