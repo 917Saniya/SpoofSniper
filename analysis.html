@@ -1,30 +1,28 @@
+
 {% extends 'base.html' %}
 {% block content %}
 
 {% raw %}
-<!-- ✅ Header Text Color -->
 <style>
 .gradient-text {
-  /* Force solid black text instead of gradient */
   color: #000;
   -webkit-text-fill-color: #000;
   background: none;
   background-clip: initial;
   -webkit-background-clip: initial;
-  display: inline-block;
 }
 </style>
 {% endraw %}
 
 <div class="analysis-container">
   <div class="container py-5">
-    <!-- Header Section -->
+    <!-- Header -->
     <div class="text-center mb-5 reveal">
       <h1 class="display-4 fw-bold mb-3 gradient-text">
         <i class="fa-solid fa-shield-halved me-3"></i>Account Analysis
       </h1>
       <p class="lead text-muted">
-        Enter post text and account details. SpoofSniper will analyze using AI models and provide detailed risk assessment.
+        Enter a Facebook username or profile URL to detect spoof or fraud accounts.
       </p>
     </div>
 
@@ -34,52 +32,40 @@
         <div class="analysis-card">
           <div class="card-body p-4">
             <h5 class="card-title">
-              <i class="fa-solid fa-keyboard me-2"></i>Input Details
+              <i class="fa-solid fa-keyboard me-2"></i>Account Input
             </h5>
+
             <form id="analysisForm">
               <div class="mb-4">
                 <label class="form-label">
-                  <i class="fa-solid fa-file-text me-2"></i>Post Text
+                  <i class="fa-solid fa-user me-2"></i>Username or Profile URL
                 </label>
-                <textarea
+                <input
                   class="form-control"
-                  id="textInput"
-                  rows="6"
-                  placeholder="Paste the post or announcement you want to analyze..."
+                  id="usernameInput"
+                  placeholder="e.g. https://facebook.com/john.doe or @john.doe"
                   required
-                ></textarea>
-                <div class="form-text">
-                  Enter the text content to analyze for suspicious patterns
-                </div>
+                />
+                <div class="form-text">Provide a username or full Facebook profile link</div>
               </div>
 
-              <div class="row g-3 mb-4">
-                <div class="col-md-6">
-                  <label class="form-label">
-                    <i class="fa-solid fa-user me-2"></i>Username
-                  </label>
-                  <input class="form-control" id="usernameInput" placeholder="@username" />
-                  <div class="form-text">Account username (optional)</div>
-                </div>
-                <div class="col-md-6">
-                  <label class="form-label">
-                    <i class="fa-solid fa-users me-2"></i>Followers
-                  </label>
-                  <input
-                    class="form-control"
-                    id="followersInput"
-                    type="number"
-                    min="0"
-                    placeholder="1000"
-                  />
-                  <div class="form-text">Follower count (optional)</div>
-                </div>
+              <div class="mb-4">
+                <label class="form-label">
+                  <i class="fa-solid fa-users me-2"></i>Followers (optional)
+                </label>
+                <input
+                  class="form-control"
+                  id="followersInput"
+                  type="number"
+                  min="0"
+                  placeholder="e.g. 500"
+                />
               </div>
 
               <div class="d-grid">
                 <button class="btn btn-primary btn-lg" id="analyzeBtn" type="submit">
                   <i class="fa-solid fa-bullseye me-2"></i>
-                  <span class="btn-text">Analyze Post</span>
+                  <span class="btn-text">Analyze Account</span>
                   <span class="loading-spinner d-none spinner-border spinner-border-sm ms-2"></span>
                 </button>
               </div>
@@ -87,38 +73,27 @@
           </div>
         </div>
 
-        <!-- Explainable Insights -->
+        <!-- Insights -->
         <div class="analysis-card mt-4 reveal delay-2">
           <div class="card-body p-4">
-            <h5 class="card-title">
-              <i class="fa-solid fa-lightbulb me-2"></i>Analysis Insights
-            </h5>
-            <div id="explainBox" class="text-muted">
-              <div class="text-center py-3">
-                <i class="fa-solid fa-info-circle fa-2x text-muted mb-2"></i>
-                <p class="mb-1">Detailed explanations will appear here.</p>
-                <p class="small mb-0">We highlight urgency, money-related cues, action prompts, and account red flags to justify each decision.</p>
-              </div>
+            <h5 class="card-title"><i class="fa-solid fa-lightbulb me-2"></i>Analysis Insights</h5>
+            <div id="explainBox" class="text-muted text-center py-3">
+              <i class="fa-solid fa-info-circle fa-2x mb-2"></i>
+              <p>Insights will appear here after the analysis.</p>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Results Section -->
+      <!-- Result Section -->
       <div class="col-lg-6 reveal delay-3">
         <div class="analysis-card">
-          <div class="card-body p-4">
-            <h5 class="card-title">
-              <i class="fa-solid fa-chart-line me-2"></i>Analysis Results
-            </h5>
-            <div id="resultBox" class="result-box text-center">
-              <div class="py-4">
-                <i class="fa-solid fa-search fa-3x text-muted mb-3"></i>
-                <h6 class="text-muted">Ready to Analyze</h6>
-                <p class="small text-muted mb-0">
-                  Submit your input to see detailed risk assessment and classification results.
-                </p>
-              </div>
+          <div class="card-body p-4 text-center">
+            <h5 class="card-title"><i class="fa-solid fa-chart-line me-2"></i>Analysis Results</h5>
+            <div id="resultBox" class="py-4">
+              <i class="fa-solid fa-search fa-3x text-muted mb-3"></i>
+              <h6 class="text-muted">Ready to Analyze</h6>
+              <p class="small text-muted mb-0">Submit a username or URL to see fraud risk results.</p>
             </div>
           </div>
         </div>
@@ -126,23 +101,18 @@
         <!-- Risk Breakdown -->
         <div class="analysis-card mt-4 reveal delay-3">
           <div class="card-body p-4">
-            <h5 class="card-title">
-              <i class="fa-solid fa-chart-pie me-2"></i>Risk Breakdown
-            </h5>
+            <h5 class="card-title"><i class="fa-solid fa-chart-pie me-2"></i>Risk Breakdown</h5>
             <div id="riskBreakdown" class="d-none">
-              <div class="row g-3">
-                <div class="col-4 text-center">
-                  <div class="risk-indicator" id="textRisk"><i class="fa-solid fa-file-text"></i><span>Text: 0%</span></div>
-                </div>
-                <div class="col-4 text-center">
-                  <div class="risk-indicator" id="accountRisk"><i class="fa-solid fa-user"></i><span>Account: 0%</span></div>
-                </div>
-                <div class="col-4 text-center">
-                  <div class="risk-indicator" id="overallRisk"><i class="fa-solid fa-shield-halved"></i><span>Overall: 0%</span></div>
+              <div class="text-center mb-3 position-relative" style="height: 250px;">
+                <canvas id="riskDoughnutChart" style="max-height: 250px;"></canvas>
+                <div id="chartCenterText" class="position-absolute top-50 start-50 translate-middle text-center" style="pointer-events: none;">
+                  <div id="chartRiskPercent" class="fw-bold" style="font-size: 24px;">0%</div>
+                  <div class="text-muted small">Risk</div>
                 </div>
               </div>
-              <div class="mt-4">
-                <canvas id="riskChart" height="140"></canvas>
+              <div class="row text-center mt-3">
+                <div class="col"><b id="accountRisk">Account: 0%</b></div>
+                <div class="col"><b id="overallRisk">Overall: 0%</b></div>
               </div>
             </div>
             <div id="riskBreakdownPlaceholder" class="text-center py-3">
@@ -157,13 +127,9 @@
 </div>
 
 {% raw %}
-<!-- =============================== -->
-<!-- 🧠 Enhanced Analysis Script -->
-<!-- =============================== -->
 <script>
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.querySelector("#analysisForm");
-  const textInput = document.querySelector("#textInput");
   const usernameInput = document.querySelector("#usernameInput");
   const followersInput = document.querySelector("#followersInput");
   const resultBox = document.querySelector("#resultBox");
@@ -173,26 +139,17 @@ document.addEventListener("DOMContentLoaded", () => {
   const loadingSpinner = document.querySelector(".loading-spinner");
   const riskBreakdown = document.querySelector("#riskBreakdown");
   const riskBreakdownPlaceholder = document.querySelector("#riskBreakdownPlaceholder");
-  let riskChart;
-
-  function animateValue(el, start, end, duration = 700) {
-    const startTs = performance.now();
-    function frame(now) {
-      const p = Math.min(1, (now - startTs) / duration);
-      const val = Math.round(start + (end - start) * p);
-      el.textContent = `${val}%`;
-      if (p < 1) requestAnimationFrame(frame);
-    }
-    requestAnimationFrame(frame);
-  }
+  let riskChart = null; // Store chart instance
 
   function showLoading() {
     analyzeBtn.disabled = true;
     btnText.classList.add("d-none");
     loadingSpinner.classList.remove("d-none");
-    resultBox.innerHTML = `<div class='py-4'>
-      <div class='spinner-border text-primary mb-3'></div>
-      <h6>Analyzing...</h6></div>`;
+    resultBox.innerHTML = `
+      <div class='py-4'>
+        <div class='spinner-border text-primary mb-3'></div>
+        <h6>Analyzing...</h6>
+      </div>`;
   }
 
   function hideLoading() {
@@ -201,129 +158,201 @@ document.addEventListener("DOMContentLoaded", () => {
     loadingSpinner.classList.add("d-none");
   }
 
-  async function runAnalysis(text, username, followers) {
-    const body = JSON.stringify({
-      text,
-      username,
-      followers: followers ? parseInt(followers) : 0
-    });
-
-    async function tryFetchJson(url) {
-      const res = await fetch(url, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body
-      });
-      if (!res.ok || res.status === 204) {
-        throw new Error(`HTTP ${res.status}`);
-      }
-      const txt = await res.text();
-      if (!txt || !txt.trim()) {
-        throw new Error("empty body");
-      }
-      try {
-        return JSON.parse(txt);
-      } catch (e) {
-        throw new Error("invalid json");
-      }
+  function updateRiskChart(overallRisk, accountRisk) {
+    const ctx = document.getElementById('riskDoughnutChart');
+    if (!ctx) return;
+    
+    // Calculate safe percentage (100 - risk)
+    const safePct = Math.max(0, 100 - overallRisk);
+    const riskPct = Math.min(100, Math.max(0, overallRisk));
+    
+    // Determine colors based on risk level
+    let riskColor = '#28a745'; // green (low risk)
+    if (riskPct >= 70) {
+      riskColor = '#dc3545'; // red (high risk)
+    } else if (riskPct >= 40) {
+      riskColor = '#ffc107'; // yellow (medium risk)
+    } else if (riskPct >= 20) {
+      riskColor = '#fd7e14'; // orange (moderate risk)
     }
-
-    // 1) Try webhook on same host; 2) Fallback to API predict
-    const webhookUrl = `${window.location.origin}/webhook/spoof-analysis`;
-    try {
-      return await tryFetchJson(webhookUrl);
-    } catch (_) {
-      try {
-        return await tryFetchJson("/api/predict");
-      } catch (err) {
-        throw new Error("Connection failed: " + err.message);
+    
+    const safeColor = '#6c757d'; // gray for safe portion
+    
+    // Destroy existing chart if it exists
+    if (riskChart) {
+      riskChart.destroy();
+    }
+    
+    // Create new doughnut chart
+    riskChart = new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        labels: ['Risk', 'Safe'],
+        datasets: [{
+          data: [riskPct, safePct],
+          backgroundColor: [riskColor, safeColor],
+          borderWidth: 2,
+          borderColor: '#fff'
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: true,
+        plugins: {
+          legend: {
+            display: true,
+            position: 'bottom',
+            labels: {
+              padding: 15,
+              font: {
+                size: 12
+              }
+            }
+          },
+          tooltip: {
+            callbacks: {
+              label: function(context) {
+                const label = context.label || '';
+                const value = context.parsed || 0;
+                return `${label}: ${value.toFixed(1)}%`;
+              }
+            }
+          }
+        },
+        cutout: '60%', // Makes it a doughnut (hollow center)
+        animation: {
+          animateRotate: true,
+          duration: 1000
+        }
       }
+    });
+    
+    // Update center text overlay
+    const centerTextEl = document.getElementById('chartCenterText');
+    const riskPercentEl = document.getElementById('chartRiskPercent');
+    if (centerTextEl && riskPercentEl) {
+      riskPercentEl.textContent = `${riskPct.toFixed(1)}%`;
+      riskPercentEl.style.color = riskColor;
     }
   }
 
+  async function pollResult(username) {
+    return new Promise((resolve) => {
+      const startTime = Date.now();
+      const maxWaitTime = 60000; // 60 seconds timeout
+      let pollCount = 0;
+      
+      const interval = setInterval(async () => {
+        pollCount++;
+        const elapsed = Date.now() - startTime;
+        
+        // Stop polling after timeout
+        if (elapsed > maxWaitTime) {
+          clearInterval(interval);
+          console.warn(`Polling timeout after ${elapsed}ms for username: ${username}`);
+          resolve({ 
+            error: "Timeout waiting for workflow result",
+            status: "timeout",
+            pollCount: pollCount
+          });
+          return;
+        }
+
+        try {
+          const res = await fetch(`/api/latest_result/${encodeURIComponent(username)}`);
+          const data = await res.json();
+
+          // Check if result is ready (completed or has analysis_result)
+          if (data.status === "completed" || (data.analysis_result && Object.keys(data.analysis_result).length > 0)) {
+            clearInterval(interval);
+            console.log(`Result received after ${elapsed}ms (${pollCount} polls)`);
+            resolve(data);
+            return;
+          }
+
+          // Log progress every 10 polls
+          if (pollCount % 10 === 0) {
+            console.log(`Still waiting... (${pollCount} polls, ${Math.round(elapsed/1000)}s elapsed)`);
+          }
+        } catch (err) {
+          console.error("Polling error:", err);
+          // Don't stop on network errors, keep trying until timeout
+        }
+      }, 2000); // Poll every 2 seconds
+    });
+  }
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
-    const text = textInput.value.trim();
     const username = usernameInput.value.trim();
-    const followers = followersInput.value;
+    const followers = followersInput.value || 0;
 
-    if (!text) return alert("Please enter text to analyze.");
+    if (!username) {
+      alert("Please enter a username or profile URL.");
+      return;
+    }
 
     showLoading();
-
     try {
-      const data = await runAnalysis(text, username, followers);
-      const label = data.label || "Unknown";
-      const confidence = data.confidence ? (data.confidence * 100).toFixed(2) : "N/A";
-      const isFake = label.toLowerCase().includes("fake");
+      // Step 1: Send to Flask API
+      const res = await fetch("/api/predict", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, followers })
+      });
+      const data = await res.json();
+      if (data.error) throw new Error(data.error);
 
+      // Step 2: Wait for n8n callback result (or use initial result if n8n doesn't respond)
+      const extractedUsername = data.facebook_id_or_username || data.extracted_username || username;
+      resultBox.innerHTML = `<p>⏳ Waiting for n8n workflow result...</p>`;
+      
+      const n8nData = await pollResult(extractedUsername);
+
+      // Step 3: Display results - use n8n data if available, otherwise use initial result
+      let result;
+      if (n8nData.error || n8nData.status === "timeout") {
+        // If n8n timed out, use the initial model result
+        console.warn("n8n workflow timed out, using initial model result");
+        result = data; // Use the initial result from /api/predict
+        resultBox.innerHTML = `
+          <div class="alert alert-warning">
+            <small>⚠️ n8n workflow timed out. Showing initial analysis result.</small>
+          </div>
+        `;
+      } else {
+        result = n8nData.analysis_result || n8nData.initial_result || n8nData || data;
+      }
+      const label = result.label || "Unknown";
+      const risk = result.overallRiskPct || 0;
+      const accRisk = result.accountRiskPct || 0;
+      const conf = result.confidence ? (result.confidence * 100).toFixed(1) : 0;
+
+      const isFake = label.toLowerCase().includes("fake");
       resultBox.innerHTML = `
         <h3 class="${isFake ? 'text-danger' : 'text-success'} fw-bold">
           ${isFake ? '🚫 FAKE' : '✅ REAL'}
         </h3>
-        <p>Confidence: ${confidence}%</p>
+        <p>Confidence: ${conf}%</p>
+        <p>Overall Risk: ${risk}%</p>
       `;
 
-      // Update insights list
-      const insights = Array.isArray(data.explanations) && data.explanations.length
-        ? data.explanations
-        : [
-            'No obvious red flags detected',
-            'Language tone, money prompts, and action verbs are monitored',
-            'Account heuristics consider follower count and username patterns'
-          ];
-      explainBox.innerHTML = insights
-        .map((t)=>`<div class="explanation-card">${t}</div>`)
-        .join('');
+      explainBox.innerHTML = `
+        <p><b>Decision:</b> ${label}</p>
+        <p>Calculated using text patterns, account activity, and n8n workflow scores.</p>
+      `;
 
-      // Risk breakdown numbers
-      const textPct = Number(data.textRiskPct || 0);
-      const accPct = Number(data.accountRiskPct || 0);
-      const overallPct = Number(data.overallRiskPct || 0);
-      const textSpan = document.querySelector('#textRisk span');
-      const accSpan = document.querySelector('#accountRisk span');
-      const overallSpan = document.querySelector('#overallRisk span');
+      riskBreakdown.classList.remove("d-none");
+      riskBreakdownPlaceholder.classList.add("d-none");
+      document.querySelector("#accountRisk").textContent = `Account: ${accRisk}%`;
+      document.querySelector("#overallRisk").textContent = `Overall: ${risk}%`;
+      
+      // Update or create doughnut chart
+      updateRiskChart(risk, accRisk);
 
-      // Extract current numeric parts if present
-      const currentText = parseInt((textSpan.textContent.match(/(\d+)/)||[0,0])[1], 10) || 0;
-      const currentAcc = parseInt((accSpan.textContent.match(/(\d+)/)||[0,0])[1], 10) || 0;
-      const currentOverall = parseInt((overallSpan.textContent.match(/(\d+)/)||[0,0])[1], 10) || 0;
-
-      textSpan.textContent = 'Text: 0%';
-      accSpan.textContent = 'Account: 0%';
-      overallSpan.textContent = 'Overall: 0%';
-
-      // Animate values
-      animateValue(textSpan, currentText, textPct);
-      animateValue(accSpan, currentAcc, accPct);
-      animateValue(overallSpan, currentOverall, overallPct);
-      riskBreakdown.classList.remove('d-none');
-      riskBreakdownPlaceholder.classList.add('d-none');
-
-      // Doughnut chart
-      const ctx = document.getElementById('riskChart');
-      if (ctx) {
-        if (riskChart) riskChart.destroy();
-        riskChart = new Chart(ctx, {
-          type: 'doughnut',
-          data: {
-            labels: ['Text', 'Account', 'Overall'],
-            datasets: [{
-              data: [textPct, accPct, overallPct],
-              backgroundColor: ['#ff6b6b', '#20c997', '#006D77'],
-              hoverBackgroundColor: ['#ff8585', '#38d9a9', '#078592'],
-              borderWidth: 0
-            }]
-          },
-          options: {
-            plugins: { legend: { position: 'bottom', labels: { color: '#000' } } },
-            cutout: '65%'
-          }
-        });
-      }
     } catch (err) {
-      resultBox.innerHTML = `<span class='text-danger'>${err.message}</span>`;
+      console.error(err);
+      resultBox.innerHTML = `<span class="text-danger">Error: ${err.message}</span>`;
     } finally {
       hideLoading();
     }
